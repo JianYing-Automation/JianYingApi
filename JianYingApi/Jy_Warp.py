@@ -105,14 +105,17 @@ class Instance:
         if Start_Jy: 
             if "JianyingPro" in os.popen("tasklist").read():lw._kill_jianYing()
             self.__Start_JianYing()
-            
-        print(f"Start JianYing , Currently in Page {self._detect_viewport()}")
 
-    def _Start_New_Draft_Content(self):
+    def _Start_New_Draft_Content(self,wait:bool=False):
         # Return Where New Draft Content Button is
+        if wait:
+            while self._detect_viewport() != 0: lag()
         assert self._detect_viewport() == 0 , "Not In Certificated Page(0)"
         self.Window.TextControl(Name="HomePageStartProjectName",searchDepth=1).Click()
         while self._detect_viewport() != 1:lag()
+
+    def _current_progress(self)->api32.TextControl:
+        return self.Half.TextControl(searchDepth=1,Name="currentProgress")
 
     def _Select_Drafts(self,draft_num:int=0):
         """
