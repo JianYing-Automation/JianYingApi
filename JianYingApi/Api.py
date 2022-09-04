@@ -2,7 +2,7 @@ import sys
 sys.path.append("..")
 from . import Jy_Warp
 import uiautomation
-import pyautogui
+
 def Recognize_Subtitle(filename:str,filepath:str,export_options:Jy_Warp.Export_Options,jianying_instance:Jy_Warp.Instance):
     """
         Recognize Subtitle
