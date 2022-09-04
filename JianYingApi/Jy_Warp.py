@@ -196,6 +196,17 @@ class Instance:
     def _here_to_track(self):
         auto.dragTo(x=self.Tracks.BoundingRectangle.xcenter(),y=self.Tracks.BoundingRectangle.ycenter())
 
+    def _clear_all_media(self):
+        assert self._detect_viewport() == 1,"Not In Certificated Page(1)"
+        self._To_column("媒体","本地","导入")
+        for i in self._Get_Added_Medias():
+            i.Click()
+            auto.press("Backspace")
+            uw._search_include(windowObj=self.Window,controlType=api32.WindowControl,ClassName="LVAlertDialog").ButtonControl(searchDepth=1,Name="automationprimaryBtn").Click()
+        self.Tracks.Click()
+        auto.hotkey('ctrl','a')
+        auto.press("Backspace")
+
     def _Export(self,config:Export_Options):
         """
             Export Operations

@@ -1,5 +1,5 @@
 """
-Some Logic Warp
+    Some Logic Warps
 
 """
 import os
@@ -22,7 +22,7 @@ def _Get_JianYing_Default_Path()->str:
         # When U install Jian Ying On Default Path, It would Be This
         return "C:/Users/{}/AppData/Local/JianyingPro".format(os.popen("whoami").read().replace("\n","").split("\\")[1])
 
-def __install_JianYing(Installer_Path:str):
+def _install_JianYing(Installer_Path:str):
     _path_will_install = os.path.join(_Get_JianYing_Default_Path() , "Apps" , "Configure.ini")
     assert os.path.exists(_path_will_install) == False , "Has Been Installed!"
     __install_process = _creat_exe(Installer_Path)
