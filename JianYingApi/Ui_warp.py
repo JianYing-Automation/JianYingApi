@@ -60,5 +60,5 @@ class Explorer_Files:
             api32.Click(self._File_Posi()[0],self._File_Posi()[1])
             api32.SendKeys(name)
         _e = self.FBar.PaneControl(searchDepth=2,ClassName="DUIViewWndClassName").BoundingRectangle
-        api32.Click(_e.right-1,_e.bottom-1) # click the margin to avoid add the whole dict (occured in Version 3.3.5 Beta1)
+        api32.Click(_e.right-3,_e.bottom-3,waitTime=0.5) # click the margin to avoid add the whole dict (occured in Version 3.3.5 Beta1)
         auto.press("Enter")

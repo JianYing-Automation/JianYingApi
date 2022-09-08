@@ -81,7 +81,7 @@ class Instance:
             4 : Export Page
             5 : Loading Assets
         """
-        jy_main = api32.WindowControl(Name="JianyingPro",searchDepth=1)
+        jy_main = api32.WindowControl(Name="JianyingPro",searchDepth=1,searchInterval=timeout_seconds)
         try:
             if jy_main.Exists(maxSearchSeconds=timeout_seconds)==False: return -1
         except : return -1
@@ -96,9 +96,11 @@ class Instance:
         else: return -1
 
     def _refresh_control(self):
-        self.Window = api32.WindowControl(searchDepth=1,Name="JianyingPro")
-        self.Half = uw._search_include(windowObj=self.Window,controlType=api32.PaneControl,ClassName="SplitView")
-        self.Tracks = self.Half.GroupControl(searchDepth=1,Name="MainTimeLineRoot")
+        try:
+            self.Window = api32.WindowControl(searchDepth=1,Name="JianyingPro")
+            self.Half = uw._search_include(windowObj=self.Window,controlType=api32.PaneControl,ClassName="SplitView")
+            self.Tracks = self.Half.GroupControl(searchDepth=1,Name="MainTimeLineRoot")
+        except:...
 
     def __init__(self,JianYing_Exe_Path:str=None,Start_Jy:bool=True) -> None:
         self.JianYing_Path = JianYing_Exe_Path if JianYing_Exe_Path is not None else lw._Get_JianYing_Default_Path()
@@ -171,7 +173,7 @@ class Instance:
             Return A Object of _MainTabView , Exisit Detect Needed
         """
         _t = self.Half.GroupControl(searchDepth=1,Name=f"MainTabView:{name}")
-        assert _t.Exists(maxSearchSeconds=lag_t) , "MainTab Doesn't Exsist"
+        assert _t.Exists(maxSearchSeconds=lag_t) , "MainTab Doesn't Exist"
         return _t
 
     def _VETreeMainCellItem(self,name:str)->api32.TextControl:
@@ -196,6 +198,10 @@ class Instance:
         _t.Click()
         return None
 
+    def _info_dialog(self):
+        if uw._search_include(windowObj=self.Window,controlType=api32.WindowControl,ClassName="LVInfoDialog").Exists(maxSearchSeconds=0.2):
+            ...
+
     def _here_to_track(self):
         auto.dragTo(x=self.Tracks.BoundingRectangle.xcenter(),y=self.Tracks.BoundingRectangle.ycenter())
 
@@ -215,8 +221,6 @@ class Instance:
             Export Operations
         """
         if self._detect_viewport() == 1: self.Window.GroupControl(searchDepth=1,Name="MainWindowTitleBarExportBtn").Click()
-
-
         assert self._detect_viewport() == 4 , "Not In Certificated Page(4)"
         _exp_ins = self.Window.WindowControl(Name="导出",searchDepth=1)
         _posi = _exp_ins.GroupControl(Name="ExportFileNameInput",searchDepth=1).BoundingRectangle

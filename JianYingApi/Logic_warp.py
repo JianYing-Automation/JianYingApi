@@ -15,8 +15,15 @@ def lag(lag:float=lag_t): time.sleep(lag)
 def _creat_exe(exepath:str): return multiprocessing.Process(target=os.system,args=(exepath,))
 
 def _kill_jianYing(): 
-    subprocess.Popen('%s%s' % ("taskkill /F /T /IM ","VEDetector.exe"),stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).wait()
-    subprocess.Popen('%s%s' % ("taskkill /F /T /IM ","JianYingPro.exe"),stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).wait()
+    def _has_running()->bool:
+        if ("jianyingpro") in os.popen("tasklist").read().lower():return True
+        if ("vedetector") in os.popen("tasklist").read().lower():return True
+        return False
+    while _has_running():
+        subprocess.Popen('%s%s' % ("taskkill /F /T /IM ","VEDetector.exe"),stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).wait()
+        subprocess.Popen('%s%s' % ("taskkill /F /T /IM ","JianYingPro.exe"),stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).wait()
+        subprocess.Popen('%s%s' % ("taskkill /F /T /IM ","jy.exe"),stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL).wait()
+        time.sleep(0.5)
 
 def _Get_JianYing_Default_Path()->str:
         # When U install Jian Ying On Default Path, It would Be This
