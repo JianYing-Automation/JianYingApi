@@ -15,8 +15,7 @@ def Recognize_Subtitle(filename:str,filepath:str,export_options:Jy_Warp.Export_O
     jianying_instance._Drag_To_Track(0)
     wenben = jianying_instance._MainTabView("文本")
     wenben.Click()
-    jianying_instance._VETreeMainCellItem("新建文本").Click() # 防止其他例如“花字”子目录过长导致的元素无法识别
-    jianying_instance._VETreeMainCellItem("智能字幕").Click()
+    jianying_instance._To_column("文本","新建文本","智能字幕")
     uiautomation.Click(x=wenben.BoundingRectangle.xcenter(),y=jianying_instance._VETreeMainCellItem("识别歌词").BoundingRectangle.ycenter())
     while jianying_instance._detect_viewport() == 2 : Jy_Warp.lag()
     jianying_instance._Export(export_options)

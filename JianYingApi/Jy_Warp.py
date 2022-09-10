@@ -69,7 +69,6 @@ class Instance:
         self.JianYing_Mian_Thread = lw._creat_exe(os.path.join(self.JianYing_Path,"Apps","JianyingPro.exe"))
         self.JianYing_Mian_Thread.start()
 
-
     def _detect_viewport(self,timeout_seconds:int=0.2):
         """
             Current Viewport
@@ -81,7 +80,7 @@ class Instance:
             4 : Export Page
             5 : Loading Assets
         """
-        jy_main = api32.WindowControl(ClassName="HomePage_QMLTYPE_79",searchDepth=1,searchInterval=timeout_seconds)
+        jy_main = api32.WindowControl(Name="JianyingPro",searchDepth=1,searchInterval=timeout_seconds)
         try:
             if jy_main.Exists(maxSearchSeconds=timeout_seconds)==False: return -1
         except : return -1
@@ -96,20 +95,16 @@ class Instance:
 
     def _refresh_control(self):
         try:
-            self.Window = api32.WindowControl(searchDepth=1,ClassName="HomePage_QMLTYPE_79")
+            self.Window = api32.WindowControl(searchDepth=1,Name="JianyingPro")
+            if "HomePageWebClassSupport" in self.Window.ClassName : self.Window = api32.WindowControl(searchDepth=1,ClassName="HomePage_QMLTYPE_79") 
+            # First Time Launch it will pumps-out advertisement which has same Name
             self.Half = uw._search_include(windowObj=self.Window,controlType=api32.PaneControl,ClassName="SplitView")
             self.Tracks = self.Half.GroupControl(searchDepth=1,Name="MainTimeLineRoot")
         except:...
 
     def __init__(self,JianYing_Exe_Path:str=None,Start_Jy:bool=True) -> None:
         self.JianYing_Path = JianYing_Exe_Path if JianYing_Exe_Path is not None else lw._Get_JianYing_Default_Path()
-        if Start_Jy: 
-            lw._kill_jianYing()
-            self.__Start_JianYing()
-            while self._detect_viewport() < 0 : lag()
-            self._refresh_control()
-            self.Window.SetTopmost(isTopmost=True)
-            self.Window.SetTopmost(isTopmost=False)
+        if Start_Jy:  lw._kill_jianYing() , self.__Start_JianYing()
 
     def _Start_New_Draft_Content(self,wait:bool=False):
         # Return Where New Draft Content Button is
