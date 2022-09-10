@@ -96,7 +96,7 @@ class Instance:
     def _refresh_control(self):
         try:
             self.Window = api32.WindowControl(searchDepth=1,Name="JianyingPro")
-            if "HomePageWebClassSupport" in self.Window.ClassName : self.Window = api32.WindowControl(searchDepth=1,ClassName="HomePage_QMLTYPE_79") 
+            if "HomePageWebClassSupport" in self.Window.ClassName : self.Window = api32.WindowControl(Name="JianyingPro",searchDepth=1,foundIndex=self.Window.foundIndex+1)
             # First Time Launch it will pumps-out advertisement which has same Name
             self.Half = uw._search_include(windowObj=self.Window,controlType=api32.PaneControl,ClassName="SplitView")
             self.Tracks = self.Half.GroupControl(searchDepth=1,Name="MainTimeLineRoot")
