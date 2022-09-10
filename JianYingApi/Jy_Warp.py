@@ -68,6 +68,7 @@ class Instance:
         # Start A JianYing Instance
         self.JianYing_Mian_Thread = lw._creat_exe(os.path.join(self.JianYing_Path,"Apps","JianyingPro.exe"))
         self.JianYing_Mian_Thread.start()
+        while api32.WindowControl(searchDepth=1,Name="JianyingPro",searchInterval=lag_t).Exists(maxSearchSeconds=lag_t) == False: lag()
         self.Window = api32.WindowControl(searchDepth=1,Name="JianyingPro")
 
     def _detect_viewport(self,timeout_seconds:int=0.2):
