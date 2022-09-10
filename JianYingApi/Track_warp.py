@@ -1,7 +1,7 @@
 import uiautomation as api32
 import pyautogui as auto
 
-from . Logic_warp import lag
+from . Logic_warp import lag , echo
 from . import Ui_warp
 from threading import Thread
 
@@ -16,7 +16,7 @@ class Bind_Element:
         auto.click(Element.BoundingRectangle.right,Pin.BoundingRectangle.ycenter())
         self.End = self._to_mil_sec(self._current_progress())
         self.Duration = self.End - self.Start
-        print(self.Start,self.End,self.Duration)
+        echo(self.Start,self.End,self.Duration)
 
     def _current_progress(self)->api32.TextControl:
         return self.Half.TextControl(Name="currentProgress",searchDepth=1).GroupControl().Name

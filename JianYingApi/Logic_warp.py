@@ -8,7 +8,6 @@ import multiprocessing
 import uiautomation as api32
 import time
 
-
 lag_t = 0.5
 def lag(lag:float=lag_t): time.sleep(lag)
 
@@ -30,6 +29,9 @@ def _Get_JianYing_Default_Path()->str:
         # When U install Jian Ying On Default Path, It would Be This
         return "C:/Users/{}/AppData/Local/JianyingPro".format(os.popen("whoami").read().replace("\n","").split("\\")[1])
 
+def echo(message):
+    os.system(f"echo {message}")
+
 def _install_JianYing(Installer_Path:str):
     _path_will_install = os.path.join(_Get_JianYing_Default_Path() , "Apps" , "Configure.ini")
     assert os.path.exists(os.path.join(_path_will_install,"Apps","JianyingPro.exe")) == False , "Has Been Installed!"
@@ -43,4 +45,4 @@ def _install_JianYing(Installer_Path:str):
     while not os.path.exists(_path_will_install): lag()
     __install_process.terminate()
     _kill_jianYing()
-    print("Install Finished")
+    echo("Install Finished")
