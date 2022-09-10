@@ -8,7 +8,7 @@ from threading import Thread
 class Bind_Element:
 
     def __init__(self,Element:api32.GroupControl) -> None:
-        Half = Ui_warp._search_include(windowObj=api32.WindowControl(searchDepth=1,Name="JianyingPro"),controlType=api32.PaneControl,ClassName="SplitView")
+        Half = Ui_warp._search_include(windowObj=api32.WindowControl(searchDepth=1,ClassName="HomePage_QMLTYPE_79"),controlType=api32.PaneControl,ClassName="SplitView")
         Pin = Half.GroupControl(searchDepth=1,Name="MainTimeLineRoot").GroupControl(searchDepth=1,Name="TimeLineRulerAdsorb")
         self.ele = Element
         auto.click(Element.BoundingRectangle.left,Pin.BoundingRectangle.ycenter())
