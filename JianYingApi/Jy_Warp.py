@@ -73,6 +73,7 @@ class Instance:
         lw.echo(f"Current Ui Status {self._detect_viewport()}")
         while self._detect_viewport() < 0 : lag()
         self.Window = api32.WindowControl(searchDepth=1,Name="JianyingPro")
+        lw.echo("Ui Started")
 
     def _detect_viewport(self,timeout_seconds:int=0.2):
         """
@@ -89,14 +90,13 @@ class Instance:
         try:
             if jy_main.Exists(maxSearchSeconds=timeout_seconds)==False: return -1
         except : return -1
+        self._refresh_control()
         if jy_main.TextControl(Name="HomePageStartProjectName",searchDepth=1).Exists(maxSearchSeconds=timeout_seconds): return 0
         elif jy_main.WindowControl(searchDepth=2,ClassName="#32770").Exists(maxSearchSeconds=timeout_seconds) : return 3
         elif jy_main.WindowControl(searchDepth=1,Name="导出").Exists(maxSearchSeconds=timeout_seconds) : return 4
         elif jy_main.WindowControl(searchDepth=1,Name="导入素材").Exists(maxSearchSeconds=timeout_seconds):return 5
         elif uw._search_include(windowObj=jy_main,ClassName="LVLoadingDialog",controlType=api32.WindowControl): return 2
-        elif jy_main.GroupControl(Name="MainWindowTitleBarExportBtn",searchDepth=1).Exists(maxSearchSeconds=timeout_seconds):
-            self._refresh_control()
-            return 1
+        elif jy_main.GroupControl(Name="MainWindowTitleBarExportBtn",searchDepth=1).Exists(maxSearchSeconds=timeout_seconds): return 1
         else: return -1
 
     def _refresh_control(self):
