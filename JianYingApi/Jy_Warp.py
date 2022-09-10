@@ -110,7 +110,7 @@ class Instance:
         # Return Where New Draft Content Button is
         if wait:
             while self._detect_viewport() != 0: lag()
-        self.Window.SetTopmost(True) , self.Window.SetTopmost(False) # Set Top Most And Release it , to prevent the topmost before
+        self.Window.SetTopmost(True) # Set Top Most, to prevent the topmost before
         assert self._detect_viewport() == 0 , "Not In Certificated Page(0)"
         self.Window.TextControl(Name="HomePageStartProjectName",searchDepth=1).Click()
         while self._detect_viewport() != 1:lag()
