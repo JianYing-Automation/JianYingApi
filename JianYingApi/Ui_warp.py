@@ -52,7 +52,8 @@ class Explorer_Files:
         if _p.Exists(maxSearchSeconds=0.1) == False: _p = self.FBar.EditControl(searchDepth=1)
         return  (_p.BoundingRectangle.xcenter(),_p.BoundingRectangle.ycenter())
 
-    def _type_in(self,path:str,name:str=""):
+    def _type_in(self,path:str,running_type:str,name:str=""):
+        """running_type: media_add / export_select"""
         auto.hotkey("Alt","D") # Select Path Bar
         api32.SendKeys(path) # Type in path
         auto.press("Enter")
@@ -61,5 +62,5 @@ class Explorer_Files:
             api32.SendKeys(name)
         _e = self.FBar.PaneControl(searchDepth=2,ClassName="DUIViewWndClassName").BoundingRectangle
         api32.Click(_e.right-10,_e.bottom-10,waitTime=0.5) # click the margin to avoid add the whole dict (occured in Version 3.3.5 Beta1)
-        auto.press("Enter")
-        auto.press("Enter")
+        if running_type == "media_add": auto.press("Enter")
+        elif running_type == "export_select" : self.FBar.ButtonControl(searchDepth=1,Name="选择文件夹").Click()

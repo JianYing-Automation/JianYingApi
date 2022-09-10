@@ -68,12 +68,7 @@ class Instance:
         # Start A JianYing Instance
         self.JianYing_Mian_Thread = lw._creat_exe(os.path.join(self.JianYing_Path,"Apps","JianyingPro.exe"))
         self.JianYing_Mian_Thread.start()
-        lw.echo(f"Current Start Status {lw._has_running()}")
-        while lw._has_running()== False: lag()
-        lw.echo(f"Current Ui Status {self._detect_viewport()}")
-        while self._detect_viewport() < 0 : lag()
-        self.Window = api32.WindowControl(searchDepth=1,Name="JianyingPro")
-        lw.echo("Ui Started")
+
 
     def _detect_viewport(self,timeout_seconds:int=0.2):
         """
@@ -152,7 +147,7 @@ class Instance:
             else: # Click The Small Import Button
                 api32.Click(x=self._MainTabView("文本").BoundingRectangle.xcenter(),y=self._VETreeMainCellItem("本地").BoundingRectangle.ycenter())
         while self._detect_viewport() != 3 : lag() # Wait Until Meida Dialog Shows Up
-        uw.Explorer_Files(self.Window.WindowControl(searchDepth=1,ClassName="#32770"))._type_in(path=path,name=name)
+        uw.Explorer_Files(self.Window.WindowControl(searchDepth=1,ClassName="#32770"))._type_in(path=path,name=name,running_type="media_add")
 
     def _Get_Added_Medias(self)->list:
         """
@@ -239,7 +234,7 @@ class Instance:
             _exp_ins.ButtonControl(searchDepth=1,Name="ExportFileNameInputBtn").Click()
             while self._detect_viewport() != 3: lag() # Wait For It Turns Out
             _file_ins = uw.Explorer_Files(File_Bar=_exp_ins.WindowControl(ClassName="#32770"))
-            _file_ins._type_in(path=config.export_path)
+            _file_ins._type_in(path=config.export_path,running_type="export_select")
             while self._detect_viewport() != 4:lag()
         else:
             # Default Save Path is CurrentUser+Video
