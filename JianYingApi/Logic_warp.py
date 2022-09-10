@@ -48,3 +48,4 @@ def _install_JianYing(Installer_Path:str):
                 os.remove(os.path.join(_Get_JianYing_Default_Path(),"Apps",i,"VEDetector.exe"))
                 echo("Removed Ved")
     echo("Install Finished")
+    _kill_jianYing()
