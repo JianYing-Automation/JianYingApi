@@ -69,6 +69,8 @@ class Instance:
         self.JianYing_Mian_Thread = lw._creat_exe(os.path.join(self.JianYing_Path,"Apps","JianyingPro.exe"))
         self.JianYing_Mian_Thread.start()
         lw.echo(f"Current Start Status {lw._has_running()}")
+        while lw._has_running()== False: lag()
+        lw.echo(f"Current Ui Status {self._detect_viewport()}")
         while self._detect_viewport() < 0 : lag()
         self.Window = api32.WindowControl(searchDepth=1,Name="JianyingPro")
 
