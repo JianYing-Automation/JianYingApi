@@ -12,7 +12,7 @@ import time
 lag_t = 0.5
 def lag(lag:float=lag_t): time.sleep(lag)
 
-def _creat_exe(exepath:str): return multiprocessing.Process(target=os.system,args=(exepath,),daemon=True).is_alive
+def _creat_exe(exepath:str): return multiprocessing.Process(target=os.system,args=(exepath,),daemon=True)
 
 def _has_running()->bool:
         if ("jianyingpro") in os.popen("tasklist").read().lower():return True
