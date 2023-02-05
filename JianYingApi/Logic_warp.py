@@ -1,8 +1,6 @@
 """
     Some Logic Warps
-
 """
-from genericpath import isdir
 import os
 import subprocess
 import multiprocessing
@@ -32,8 +30,8 @@ def echo(message):
     os.system(f"echo {message}")
 
 def _install_JianYing(Installer_Path:str):
-    _path_will_install = os.path.join(_Get_JianYing_Default_Path() , "Apps" , "Configure.ini")
-    assert os.path.exists(os.path.join(_path_will_install,"Apps","JianyingPro.exe")) == False , "Has Been Installed!"
+    _path_will_install = os.path.join(_Get_JianYing_Default_Path() ,  "Configure.ini")
+    assert os.path.exists(os.path.join(_path_will_install,"JianyingPro.exe")) == False , "Has Been Installed!"
     _install_process = _creat_exe(Installer_Path)
     _install_process.start()
     while not api32.WindowControl(searchDepth=1,ClassName="#32770").Exists() : lag() # Keep it Roll until it turns up
@@ -42,9 +40,9 @@ def _install_JianYing(Installer_Path:str):
         x=_install_inst.BoundingRectangle.xcenter(),
         y=int(_install_inst.BoundingRectangle.ycenter()-_install_inst.BoundingRectangle.height()/8))
     while not os.path.exists(_path_will_install): lag()
-    for i in os.listdir(os.path.join(_Get_JianYing_Default_Path(),"Apps")):
-        if os.path.isdir(os.path.join(_Get_JianYing_Default_Path(),"Apps",i)):
-            if "VEDetector.exe" in os.listdir(os.path.join(_Get_JianYing_Default_Path(),"Apps",i)):
-                os.remove(os.path.join(_Get_JianYing_Default_Path(),"Apps",i,"VEDetector.exe"))
+    for i in os.listdir(os.path.join(_Get_JianYing_Default_Path())):
+        if os.path.isdir(os.path.join(_Get_JianYing_Default_Path(),i)):
+            if "VEDetector.exe" in os.listdir(os.path.join(_Get_JianYing_Default_Path(),i)):
+                os.remove(os.path.join(_Get_JianYing_Default_Path(),i,"VEDetector.exe"))
                 echo("Removed Ved")
     echo("Install Finished")

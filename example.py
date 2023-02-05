@@ -1,9 +1,9 @@
-# JianYing-Api 第三方剪映Api  
-![JianYing Latest](https://img.shields.io/badge/JianYing-latest-blue.svg) 通过uiautomation实现  
+import JianYingApi  , uuid
 
-```python
-import Drafts  , uuid
-d = Drafts.Create_New_Drafts(r"E:\SB\JianyingPro Drafts/PulpFiction") # Create New Project
+
+#########Step1 新建视频项目
+
+d = JianYingApi.Drafts.Create_New_Drafts(r"E:\SB\JianyingPro Drafts/PulpFiction") # Create New Project
 # Create Two Tracks
 video_track = d.Content.NewTrack(TrackType="video")
 efect_track = d.Content.NewTrack(TrackType="effect")
@@ -53,10 +53,6 @@ d.Content.Add2Track(Track_id=efect_track["id"],Content=
     )
 # Save
 d.Save()
-```
-#### 已经实现的功能
-- 媒体的导入
-- 特效添加
-#### Todo
-- 关键帧的设定
-- 代理设定
+
+#########Step2 打开剪映识别
+ins = JianYingApi.Jy_Warp.Instance(JianYing_Exe_Path=r"E:\SB\JianyingPro")

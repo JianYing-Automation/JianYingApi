@@ -24,9 +24,9 @@ class Export_Options:
     def check(self):
         assert self.export_vid == True or self.export_sub == True , "Please Select At Least On Output Way [vid | srt]"
     def __init__(self,
-        export_sub:bool=False,export_vid:bool=False,export_name:str="",export_path:str="",vid_quality:int=480,bit_rate:str="recommend",
+        export_name:str="",export_path:str="",vid_quality:int=480,bit_rate:str="recommend",
         bit_rate_option_kbps:int=16000,bit_rate_option_cbr:bool=False,bit_rate_option_vbr:bool=True,Encode:str="H.264",Format:str="mp4",
-        Frame:int=30,export_srt_type:str="srt"
+        Frame:int=30
         ) -> None:
         """
         Export Options
@@ -44,8 +44,6 @@ class Export_Options:
             export_sub : Is Export SubTitle [True | False]
                     export_srt_type : ["srt"|"txt"]
         """
-        self.export_sub = export_sub
-        self.export_vid = export_vid
         self.export_name = export_name
         self.export_path = export_path
         self.vid_quality = self.assert_in(vid_quality,[480,720,1080,1440,2160])
@@ -56,7 +54,6 @@ class Export_Options:
         self.Encode = self.assert_in(Encode,["H.264","HEVC"])
         self.Format = self.assert_in(Format,["mp4","mov"])
         self.Frame = Frame
-        self.export_srt_type = self.assert_in(export_srt_type,["txt","srt"])
         self.check()
 
 
@@ -66,7 +63,7 @@ class Instance:
     """
     def __Start_JianYing(self):
         # Start A JianYing Instance
-        self.JianYing_Mian_Thread = lw._creat_exe(os.path.join(self.JianYing_Path,"Apps","JianyingPro.exe"))
+        self.JianYing_Mian_Thread = lw._creat_exe(os.path.join(self.JianYing_Path,"JianyingPro.exe"))
         self.JianYing_Mian_Thread.start()
 
     def _detect_viewport(self,timeout_seconds:int=0.2):
@@ -133,40 +130,7 @@ class Instance:
         assert len(_drafts) < draft_num + 2 ,IndexError("Out Of Bounds")
         _drafts[draft_num].Click()
         while self._detect_viewport() != 1 : lag()
-        
-    def _Append_Media(self,path:str,name:str)->tuple:
-        """
-            Append Media
-        """
-        if self._detect_viewport() == 1:
-            self._To_column("媒体","本地","导入")
-            if len(self._Get_Added_Medias()) == 0: # No Media Added, Click Big Button 
-                _l = self.Half.ScrollBarControl(searchDepth=1).BoundingRectangle
-                _r = self._current_progress().BoundingRectangle
-                api32.Click(x=int(_l.left+(_r.left-_l.left)/2),y=_l.ycenter())
-            else: # Click The Small Import Button
-                api32.Click(x=self._MainTabView("文本").BoundingRectangle.xcenter(),y=self._VETreeMainCellItem("本地").BoundingRectangle.ycenter())
-        while self._detect_viewport() != 3 : lag() # Wait Until Meida Dialog Shows Up
-        uw.Explorer_Files(self.Window.WindowControl(searchDepth=1,ClassName="#32770"))._type_in(path=path,name=name,running_type="media_add")
-
-    def _Get_Added_Medias(self)->list:
-        """
-            Return Added Medias
-        """
-        Return_List = []
-        for i in self.Half.GetChildren():
-            if i.Name == "automationroot": Return_List.append(i)
-        return Return_List
     
-    def _Drag_To_Track(self,mediaNum:int=0):
-        """
-            Drag Certificated Media Into Tracks
-        """
-        medias = self._Get_Added_Medias()
-        assert self._detect_viewport() == 1 , "Not In Certificated Page(1)"
-        assert mediaNum < len(medias)+1 , "mediaNum should not higher than meidas len"
-        api32.DragDrop(x1=medias[mediaNum].BoundingRectangle.xcenter(),y1=medias[mediaNum].BoundingRectangle.ycenter(),x2=self.Tracks.BoundingRectangle.xcenter(),y2=self.Tracks.BoundingRectangle.ycenter(),waitTime=1)
-        
     def _MainTabView(self,name:str)->api32.GroupControl:
         """
             Return A Object of _MainTabView , Exisit Detect Needed
@@ -200,20 +164,6 @@ class Instance:
     def _info_dialog(self):
         if uw._search_include(windowObj=self.Window,controlType=api32.WindowControl,ClassName="LVInfoDialog").Exists(maxSearchSeconds=0.2):
             ...
-
-    def _here_to_track(self):
-        auto.dragTo(x=self.Tracks.BoundingRectangle.xcenter(),y=self.Tracks.BoundingRectangle.ycenter())
-
-    def _clear_all_media(self):
-        assert self._detect_viewport() == 1,"Not In Certificated Page(1)"
-        self._To_column("媒体","本地","导入")
-        for i in self._Get_Added_Medias():
-            i.Click()
-            auto.press("Backspace")
-            uw._search_include(windowObj=self.Window,controlType=api32.WindowControl,ClassName="LVAlertDialog").ButtonControl(searchDepth=1,Name="automationprimaryBtn").Click()
-        self.Tracks.Click()
-        auto.hotkey('ctrl','a')
-        auto.press("Backspace")
 
     def _Export(self,config:Export_Options):
         """
