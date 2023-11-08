@@ -35,6 +35,7 @@ Windows: 安装目录的同一目录下`JianyingPro Drafts.json`中
 ### Root -> draft_materials -> type0 -> value:
 媒体信息
 ![D_EG1](https://user-images.githubusercontent.com/32994395/216268447-a6f3e463-8d1d-4ff2-9574-a169364fc53a.png)
+
 |K|V|Des|
 |:--:|:--:|:--:|
 |extra_info|`Cat.png`|文件描述名|
@@ -44,9 +45,10 @@ Windows: 安装目录的同一目录下`JianyingPro Drafts.json`中
 
 
 
-### 2.2 `draft_meta_info.json`
-这是`draft_meta_info.json`的初始结构图,内容复杂,但承载了绝大部分功能
+### 2.2 `draft_content.json`
+这是`draft_content.json`的初始结构图,内容复杂,但承载了绝大部分功能
 ![C_empty](https://user-images.githubusercontent.com/32994395/216267561-078f9b76-4c6f-4e25-84e1-b063db15e73e.png)
+
 ### Root:
 |K|V|Des|
 |:--:|:--:|:--:|
